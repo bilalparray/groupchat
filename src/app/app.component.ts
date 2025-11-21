@@ -32,7 +32,9 @@ import {
   bookmarkOutline,
   bookmarkSharp,
 } from 'ionicons/icons';
-
+import { environment } from 'src/environments/environment';
+import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
+import { StatusBar, Style } from '@capacitor/status-bar';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -56,15 +58,11 @@ import {
   ],
 })
 export class AppComponent {
+  environment = environment;
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    { title: 'Login', url: '/login', icon: 'mail' },
+    { title: 'Register', url: '/register', icon: 'paper-plane' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor() {
     addIcons({
       mailOutline,
@@ -82,5 +80,9 @@ export class AppComponent {
       bookmarkOutline,
       bookmarkSharp,
     });
+  }
+
+  async ngOnInit() {
+    await EdgeToEdge.enable();
   }
 }
