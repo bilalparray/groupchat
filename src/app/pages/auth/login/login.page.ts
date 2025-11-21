@@ -13,7 +13,7 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonInput, // <-- required
+  IonInput,
   IonButton,
 } from '@ionic/angular/standalone';
 
@@ -24,7 +24,7 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule, // required for [(ngModel)]
+    FormsModule,
     IonContent,
     IonHeader,
     IonTitle,
@@ -34,7 +34,7 @@ import {
     IonList,
     IonItem,
     IonLabel,
-    IonInput, // <-- make sure this is present
+    IonInput,
     IonButton,
   ],
 })
