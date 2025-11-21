@@ -1,0 +1,7 @@
+{
+  "name": "groupchat",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
