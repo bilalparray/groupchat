@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   applicationName: 'GroupChat',
+  apiBaseUrl: 'http://localhost:3000',
+  applicationVersion: '1.0.0',
 };
 
 /*
