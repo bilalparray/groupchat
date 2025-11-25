@@ -89,13 +89,13 @@ export class LoginPage {
 
     const payload = { email: this.model.email, password: this.model.password };
     await this.storageService.saveToStorage(
-      AppConstants.DATABASE_KEYS.LOGIN_DETAILS,
-      payload
+      AppConstants.DATABASE_KEYS.ACCESS_TOKEN,
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30'
     );
-    this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
+    await this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
   }
 
-  navigate(path: string) {
+  async navigate(path: string) {
     this.router.navigate([path]);
   }
 }

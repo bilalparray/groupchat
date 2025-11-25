@@ -16,7 +16,12 @@ import {
   IonRouterLink,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { enterOutline, lockClosedOutline, personOutline } from 'ionicons/icons';
+import {
+  enterOutline,
+  homeOutline,
+  lockClosedOutline,
+  personOutline,
+} from 'ionicons/icons';
 import { environment } from 'src/environments/environment';
 import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
 import { StorageService } from './services/storage.service';
@@ -60,6 +65,7 @@ export class AppComponent extends BaseComponent<AppViewModel> {
       lockClosedOutline,
       personOutline,
       enterOutline,
+      homeOutline,
     });
   }
 

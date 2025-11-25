@@ -1,8 +1,7 @@
 export enum RoleTypeSM {
-    Unknown = 0,
-    SuperAdmin = 1,
-    SystemAdmin = 2,
-    ClientAdmin = 3,
-    ClientEmployee = 4,
-    CompanyAutomation = 5
+  Unknown = 0,
+  SystemAdmin = 1,
+  SuperAdmin = 2,
+  Admin = 3,
+  Guest = 4,
 }

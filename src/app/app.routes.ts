@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';
+import { RoleTypeSM } from './models/service/app/enums/role-type-s-m.enum';
 
 export const routes: Routes = [
   {
@@ -28,5 +29,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/dashboard/dashboard.page').then((m) => m.DashboardPage),
     canActivate: [AuthGuard],
+    data: { allowedRole: [RoleTypeSM.Admin, RoleTypeSM.Guest] },
   },
 ];
