@@ -1,12 +1,12 @@
-import { ErrorHandler, Injectable } from "@angular/core";
-import { CommonLogger } from "../clients/helpers/common-logger.helper";
-import { CommonService } from "./common.service";
-import { AppConstants } from "../app-constants";
-import { ApiErrorTypeSM } from "../models/service/foundation/enums/api-error-type-s-m.enum";
-import { SampleErrorLogModel } from "../models/internal/sample-error-model";
+import { ErrorHandler, Injectable } from '@angular/core';
+import { CommonLogger } from '../clients/helpers/common-logger.helper';
+import { CommonService } from './common.service';
+import { AppConstants } from '../app-constants';
+import { ApiErrorTypeSM } from '../models/service/foundation/enums/api-error-type-s-m.enum';
+import { SampleErrorLogModel } from '../models/internal/sample-error-model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class LogHandlerService implements ErrorHandler {
   constructor(private commonService: CommonService) {}
@@ -24,8 +24,8 @@ export class LogHandlerService implements ErrorHandler {
       //show error messages from app constants
       if (error instanceof SampleErrorLogModel) {
         this.commonService.showSweetAlertToast({
-          icon: "error",
-          title: "Error!",
+          icon: 'error',
+          title: 'Error!',
           text: error.displayMessage,
         });
         //logging
@@ -33,7 +33,7 @@ export class LogHandlerService implements ErrorHandler {
           error.apiErrorType &&
           this.commonService
             .singleEnumToString(ApiErrorTypeSM, error.apiErrorType)
-            .includes("Log")
+            .includes('Log')
         ) {
           await CommonLogger.LogException(error);
         } else {
@@ -41,8 +41,8 @@ export class LogHandlerService implements ErrorHandler {
         }
       } else {
         this.commonService.showSweetAlertToast({
-          icon: "error",
-          title: "Error!",
+          icon: 'error',
+          title: 'Error!',
           text: AppConstants.ERROR_PROMPTS.Unknown_Error,
         });
         let sampleError: SampleErrorLogModel = {
@@ -51,7 +51,6 @@ export class LogHandlerService implements ErrorHandler {
           additionalProps: new Map(),
           message: error.message,
           name: error.name,
-          cause: error.cause,
           stack: error.stack,
           createdOnUTC: new Date().toISOString(),
         };
@@ -59,8 +58,8 @@ export class LogHandlerService implements ErrorHandler {
       }
     } catch (error) {
       this.commonService.showSweetAlertToast({
-        icon: "error",
-        title: "Error!",
+        icon: 'error',
+        title: 'Error!',
         text: AppConstants.ERROR_PROMPTS.Unknown_Error,
       });
     } finally {

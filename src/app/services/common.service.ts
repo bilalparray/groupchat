@@ -1,28 +1,27 @@
-import { Injectable } from "@angular/core";
-import { BaseService } from "./base.service";
-import { LayoutViewModel, LoaderInfo } from "../models/internal/common-models";
-import { SweetAlertOptions } from "../models/internal/custom-sweet-alert-options";
-import { NgxUiLoaderService } from "ngx-ui-loader";
-import { RenoAdsSM } from "../models/service/app/v1/general/ads/reno-ads-s-m";
-import { AppService } from "./app.service";
+import { Injectable } from '@angular/core';
+import { BaseService } from './base.service';
+import { LayoutViewModel, LoaderInfo } from '../models/internal/common-models';
+import { SweetAlertOptions } from '../models/internal/custom-sweet-alert-options';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+
 declare var Swal: any;
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class CommonService extends BaseService {
   layoutViewModel: LayoutViewModel = new LayoutViewModel();
   showNav: boolean = true;
-  loaderInfo: LoaderInfo = { message: "", showLoader: false };
+  loaderInfo: LoaderInfo = { message: '', showLoader: false };
   constructor(private ngxService: NgxUiLoaderService) {
     super();
   }
   handleEnterKey(event: any): void {
     // Handle Enter key
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       (event.target as HTMLElement).blur();
     }
   }
-  async presentLoading(message: string = "") {
+  async presentLoading(message: string = '') {
     this.ngxService.start();
     this.loaderInfo = { message, showLoader: true };
   }
@@ -39,13 +38,13 @@ export class CommonService extends BaseService {
    * @argument alertOptions Contains the properties of sweet alert like position, timer, text, title etc  */
   async showSweetAlertToast(alertOptions: SweetAlertOptions) {
     alertOptions.toast = true;
-    if (!alertOptions.position) alertOptions.position = "bottom";
+    if (!alertOptions.position) alertOptions.position = 'bottom';
     if (!alertOptions.showConfirmButton) alertOptions.showConfirmButton = false;
     if (!alertOptions.timer) alertOptions.timer = 3000;
     if (!alertOptions.timerProgressBar) alertOptions.timerProgressBar = true;
     alertOptions.didOpen = (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
     };
     return await Swal.fire(alertOptions);
   }
@@ -53,7 +52,7 @@ export class CommonService extends BaseService {
   async dismissLoader() {
     this.ngxService.stop();
     this.loaderInfo.showLoader = false;
-    this.loaderInfo.message = "";
+    this.loaderInfo.message = '';
   }
 
   /**Change Enum value  to string Array*/

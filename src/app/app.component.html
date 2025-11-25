@@ -4,8 +4,8 @@
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header>{{environment.applicationName}}</ion-list-header>
-
-          @for (p of appPages; track p; let i = $index) {
+          @if (!viewModel.isUserLoggedIn) {
+          @for (p of viewModel.userNotLoggedInPages; track p; let i = $index) {
           <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
               routerLinkActive="selected">
@@ -15,7 +15,19 @@
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
-          }
+          }}
+          @else{
+          @for (p of viewModel.userLoggedInPages; track p; let i = $index) {
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+              routerLinkActive="selected">
+
+              <ion-icon aria-hidden="true" slot="start" [name]="p.icon"></ion-icon>
+
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          }}
         </ion-list>
 
       </ion-content>
