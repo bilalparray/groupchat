@@ -9,6 +9,8 @@ export const environment = {
   applicationVersion: '1.0.0',
   indexedDBName: 'GroupChatDB',
   indexedDBVersion: 1,
+  enableResponseCacheProcessing: false,
+  apiResponseCacheTimeoutInMinutes: 5,
   LoggingInfo: {
     LogLocation: 'File,Console',
     ExceptionLocation: 'File,Console',
@@ -20,6 +22,7 @@ export const environment = {
     exceptionToFile: true,
     exceptionToApi: false,
     exceptionToElasticCluster: false,
+    cacheLogs: true,
   },
   encryptionKey: '12345678901234567890123456789012',
 };

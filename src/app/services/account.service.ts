@@ -73,12 +73,8 @@ export class AccountService extends BaseService {
             tokenReq
           );
           this.storageService.saveToStorage(
-            AppConstants.DATABASE_KEYS.LOGIN_USER,
+            AppConstants.DATABASE_KEYS.LOGIN_DETAILS,
             resp.successData.loginUserDetails
-          );
-          this.storageService.saveToStorage(
-            AppConstants.DATABASE_KEYS.COMPANY_CODE,
-            tokenReq.companyCode
           );
         } else {
           // this.storageService.saveToSessionStorage(
@@ -95,13 +91,10 @@ export class AccountService extends BaseService {
           // );
           ////indexdb
           this.storageService.saveToSessionStorage(
-            AppConstants.DATABASE_KEYS.LOGIN_USER,
+            AppConstants.DATABASE_KEYS.LOGIN_DETAILS,
             resp.successData.loginUserDetails
           );
-          this.storageService.saveToSessionStorage(
-            AppConstants.DATABASE_KEYS.COMPANY_CODE,
-            tokenReq.companyCode
-          );
+
           this.storageService.saveToSessionStorage(
             AppConstants.DATABASE_KEYS.ACCESS_TOKEN,
             resp.successData.accessToken
@@ -158,50 +151,14 @@ export class AccountService extends BaseService {
   }
 
   async logoutUser() {
-    /// WE ARE NOT CLEARING REMEBER ME KEY BECCUASE WE NEED TO REMEMBER THE USER SO THAT HE CAN LOGIN WITH SAME CREDENTIALS WIHTOUT WRITING AGAIN
-    // IF developer needs to clear remember me key then he can do it and modify the code accordingly
-    try {
-      this.storageService.removeFromSessionStorage(
-        AppConstants.DATABASE_KEYS.ACCESS_TOKEN
-      );
-      this.storageService.removeFromSessionStorage(
-        AppConstants.DATABASE_KEYS.LOGIN_USER
-      );
-      this.storageService.removeFromSessionStorage(
-        AppConstants.DATABASE_KEYS.COMPANY_CODE
-      );
-      // this.storageService.removeFromSessionStorage(
-      //   AppConstants.DATABASE_KEYS.REMEMBER_PWD
-      // );
-
-      ///indexdb
-
-      await this.storageService.removeFromSessionStorage(
-        AppConstants.DATABASE_KEYS.ACCESS_TOKEN
-      );
-      await this.storageService.removeFromSessionStorage(
-        AppConstants.DATABASE_KEYS.LOGIN_USER
-      );
-      await this.storageService.removeFromSessionStorage(
-        AppConstants.DATABASE_KEYS.COMPANY_CODE
-      );
-      // await this.storageService.removeFromSessionStorage(
-      //   AppConstants.DATABASE_KEYS.REMEMBER_PWD
-      // );
-    } catch (err) {
-      this.storageService.clearSessionStorage();
-      this.storageService.clearSessionStorage;
-    }
     try {
       this.storageService.removeFromStorage(
         AppConstants.DATABASE_KEYS.ACCESS_TOKEN
       );
       this.storageService.removeFromStorage(
-        AppConstants.DATABASE_KEYS.LOGIN_USER
+        AppConstants.DATABASE_KEYS.LOGIN_DETAILS
       );
-      this.storageService.removeFromStorage(
-        AppConstants.DATABASE_KEYS.COMPANY_CODE
-      );
+
       // this.storageService.removeFromStorage(
       //   AppConstants.DATABASE_KEYS.REMEMBER_PWD
       // );
@@ -210,11 +167,9 @@ export class AccountService extends BaseService {
         AppConstants.DATABASE_KEYS.ACCESS_TOKEN
       );
       this.storageService.removeFromStorage(
-        AppConstants.DATABASE_KEYS.LOGIN_USER
+        AppConstants.DATABASE_KEYS.LOGIN_DETAILS
       );
-      this.storageService.removeFromStorage(
-        AppConstants.DATABASE_KEYS.COMPANY_CODE
-      );
+
       // this.storageService.removeFromStorage(
       //   AppConstants.DATABASE_KEYS.REMEMBER_PWD
       // );

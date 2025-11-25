@@ -5,6 +5,8 @@ export const AppConstants = {
   API_ENDPOINTS: {
     BASE_URL: 'http://localhost:3000',
     LOG_URL: 'http://localhost:3000/api/log',
+    CLIENT_USER: 'clientUser',
+    ACCOUNT_URL: 'account',
   },
   DATABASE_KEYS: {
     USER: 'USER',
@@ -14,6 +16,8 @@ export const AppConstants = {
     PLATFORM: 'PLATFORM',
     APP_LOGS: 'APP_LOGS',
     EXCEPTION_LOGS: 'EXCEPTION_LOGS',
+    API_RESP_CACHE: 'API_RESP_CACHE',
+    AUTOMATION_TOKEN: 'AUTOMATION_TOKEN',
   },
   DATABASE_DEFAULT_VALUES: {},
   ERROR_PROMPTS: {
