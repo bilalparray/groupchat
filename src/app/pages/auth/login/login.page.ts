@@ -92,6 +92,7 @@ export class LoginPage {
       AppConstants.DATABASE_KEYS.LOGIN_DETAILS,
       payload
     );
+    this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
   }
 
   navigate(path: string) {

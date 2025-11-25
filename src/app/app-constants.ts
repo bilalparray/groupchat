@@ -7,6 +7,7 @@ export const AppConstants = {
     USER: 'USER',
     LOGIN_DETAILS: 'LOGIN_DETAILS',
     REMEMBER_PWD: 'REMEMBER_PWD',
+    ACCESS_TOKEN: 'ACCESS_TOKEN',
   },
   DATABASE_DEFAULT_VALUES: {},
   ERROR_PROMPTS: {
@@ -45,6 +46,7 @@ export const AppConstants = {
       HOME: 'home',
       REGISTER: 'register',
       GUEST: 'guest',
+      DASHBOARD: 'dashboard',
     },
     SUPERADMIN: {
       LOGIN: 'superadmin/login',
