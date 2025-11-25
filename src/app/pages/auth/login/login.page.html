@@ -7,38 +7,52 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true" class="ion-padding">
   <form #loginForm="ngForm" (ngSubmit)="submit(loginForm)" novalidate>
     <ion-list>
       <ion-item>
         <ion-label position="stacked">Email</ion-label>
         <ion-input type="email" name="email" required email [(ngModel)]="model.email" (blur)="onBlur('email')"
-          [attr.autocomplete]="'email'"></ion-input>
+          [attr.autocomplete]="'email'">
+        </ion-input>
       </ion-item>
-      <div class="validation" *ngIf="showError('email')">
-        <small *ngIf="!model.email || model.email.trim() === ''">Email is required.</small>
-        <small *ngIf="model.email && !isValidEmail(model.email)">Enter a valid email address.</small>
-      </div>
 
+      @if (showError('email')) {
+      <div class="validation">
+        @if (!model.email || model.email.trim() === '') {
+        <small>Email is required.</small>
+        } @else if (model.email && !isValidEmail(model.email)) {
+        <small>Enter a valid email address.</small>
+        }
+      </div>
+      }
 
       <ion-item>
         <ion-label position="stacked">Password</ion-label>
         <ion-input type="password" name="password" required minlength="6" [(ngModel)]="model.password"
-          (blur)="onBlur('password')" [attr.autocomplete]="'current-password'"></ion-input>
+          (blur)="onBlur('password')" [attr.autocomplete]="'current-password'">
+        </ion-input>
       </ion-item>
-      <div class="validation" *ngIf="showError('password')">
-        <small *ngIf="!model.password || model.password.trim() === ''">Password is required.</small>
-        <small *ngIf="model.password && model.password.length < 6">Password must be at least 6 characters.</small>
-      </div>
 
+      @if (showError('password')) {
+      <div class="validation">
+        @if (!model.password || model.password.trim() === '') {
+        <small>Password is required.</small>
+        } @else if (model.password && model.password.length < 6) { <small>Password must be at least 6
+          characters.</small>
+          }
+      </div>
+      }
 
       <ion-button expand="block" type="submit">Login</ion-button>
 
-
       <div class="links">
-        <p>Don't have an account? <a (click)="navigate('/register')">Register</a></p>
-        <p><a (click)="navigate('/guest')">Join as Guest</a></p>
+        <p>Don't have an account?
+          <a (click)="navigate('/register')">Register</a>
+        </p>
+        <p>
+          <a (click)="navigate('/guest')">Join as Guest</a>
+        </p>
       </div>
     </ion-list>
   </form>

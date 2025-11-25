@@ -10,6 +10,7 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <form #guestForm="ngForm" (ngSubmit)="submit(guestForm)" novalidate>
     <ion-list>
+
       <!-- Name -->
       <ion-item>
         <ion-label position="stacked">Name</ion-label>
@@ -17,9 +18,14 @@
           [attr.autocomplete]="'name'">
         </ion-input>
       </ion-item>
-      <div class="validation" *ngIf="showError('name')">
-        <small *ngIf="!model.name || model.name.trim() === ''">Name is required.</small>
+
+      @if (showError('name')) {
+      <div class="validation">
+        @if (!model.name || model.name.trim() === '') {
+        <small>Name is required.</small>
+        }
       </div>
+      }
 
       <!-- Invite Key -->
       <ion-item>
@@ -28,15 +34,23 @@
           [attr.autocomplete]="'off'">
         </ion-input>
       </ion-item>
-      <div class="validation" *ngIf="showError('inviteKey')">
-        <small *ngIf="!model.inviteKey || model.inviteKey.trim() === ''">Invite key is required.</small>
+
+      @if (showError('inviteKey')) {
+      <div class="validation">
+        @if (!model.inviteKey || model.inviteKey.trim() === '') {
+        <small>Invite key is required.</small>
+        }
       </div>
+      }
 
       <ion-button expand="block" type="submit">Join</ion-button>
 
       <div class="links">
-        <p>Already have an account? <a (click)="navigate('/login')">Login</a></p>
+        <p>Already have an account?
+          <a (click)="navigate('/login')">Login</a>
+        </p>
       </div>
+
     </ion-list>
   </form>
 </ion-content>
