@@ -67,11 +67,9 @@ export class AppComponent extends BaseComponent<AppViewModel> {
     let accessToken = await this.storageService.getFromStorage(
       AppConstants.DATABASE_KEYS.ACCESS_TOKEN
     );
-    if (accessToken != null && accessToken != '') {
-      this.viewModel.isUserLoggedIn = true;
-    } else {
-      this.viewModel.isUserLoggedIn = false;
-    }
+    const hasToken =
+      accessToken !== null && accessToken !== undefined && accessToken !== '';
+    this.viewModel.isUserLoggedIn.set(hasToken);
     await EdgeToEdge.enable();
   }
 }

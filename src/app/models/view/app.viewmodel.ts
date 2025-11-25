@@ -1,10 +1,9 @@
-import { environment } from 'src/environments/environment';
 import { BaseViewModel } from '../internal/base.viewmodel';
-import { AppInformationSM } from '../service/app/v1/client/app-information-s-m';
 import { AppConstants } from 'src/app/app-constants';
+import { signal } from '@angular/core';
 
 export class AppViewModel extends BaseViewModel {
-  isUserLoggedIn: boolean = false;
+  isUserLoggedIn = signal(false);
   userNotLoggedInPages = [
     { title: 'Login', url: '/login', icon: 'lock-closed-outline' },
     { title: 'Register', url: '/register', icon: 'enter-outline' },
