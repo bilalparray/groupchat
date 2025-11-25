@@ -2,33 +2,11 @@ import { environment } from 'src/environments/environment';
 
 // TODO: MOVE ALL CONSTANTS HERE
 export const AppConstants = {
-  API_ENDPOINTS: {
-    TEST_URL: 'test/test',
-    LOG_URL: 'log',
-    ACCOUNT_URL: 'api/token',
-    DUMMY_TEACHER_URL: 'api/v1/DummyTeacher',
-    DUMMY_STUDENT_URL: 'api/token',
-    CLIENT_USER: '/api/v1/ClientUser',
-    RENO_ADS: 'api/v1/RenoAds',
-    CompanyAdditionalInfo: 'api/v1/CompanyAdditionalInfo',
-    EXTERNAL_USER: '/api/v1/ExternalUser',
-    FEEDBACK: 'api/v1/Feedback',
-    ApplicationFile: 'api/v1/ApplicationFile',
-    ClientCompanyAdditionalInfo: 'api/v1/ClientCompanyAdditionalInfo',
-  },
+  API_ENDPOINTS: {},
   DATABASE_KEYS: {
-    ACCESS_TOKEN: 'ACCESS_TOKEN',
-    LOGIN_USER: 'LOGIN_USER',
-    API_RESP_CACHE: 'API_RESP_CACHE',
-    PLATFORM: 'PLATFORM',
-    REMEMBER_PWD: 'REMEMBER_PWD',
-    COMPANY_CODE: 'COMPANY_CODE',
-    AUTOMATION_TOKEN: 'AUTOMATION_TOKEN',
-    AUTOMATION_USER: 'AUTOMATION_USER',
-    APP_LOGS: 'APP_LOGS',
-    EXCEPTION_LOGS: 'EXCEPTION_LOGS',
     USER: 'USER',
-    FEEDBACK_INFO: 'FEEDBACK_INFO',
+    LOGIN_DETAILS: 'LOGIN_DETAILS',
+    REMEMBER_PWD: 'REMEMBER_PWD',
   },
   DATABASE_DEFAULT_VALUES: {},
   ERROR_PROMPTS: {
@@ -65,6 +43,8 @@ export const AppConstants = {
       UNAUTHORIZED: '',
       LOGIN: 'login',
       HOME: 'home',
+      REGISTER: 'register',
+      GUEST: 'guest',
     },
     SUPERADMIN: {
       LOGIN: 'superadmin/login',

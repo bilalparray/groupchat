@@ -7,6 +7,21 @@ export const environment = {
   applicationName: 'GroupChat',
   apiBaseUrl: 'http://localhost:3000',
   applicationVersion: '1.0.0',
+  indexedDBName: 'GroupChatDB',
+  indexedDBVersion: 1,
+  LoggingInfo: {
+    LogLocation: 'File,Console',
+    ExceptionLocation: 'File,Console',
+    logToConsole: true,
+    logToFile: true,
+    logToApi: false,
+    logToElasticCluster: false,
+    exceptionToConsole: true,
+    exceptionToFile: true,
+    exceptionToApi: false,
+    exceptionToElasticCluster: false,
+  },
+  encryptionKey: '12345678901234567890123456789012',
 };
 
 /*

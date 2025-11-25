@@ -16,6 +16,8 @@ import {
   IonInput,
   IonButton,
 } from '@ionic/angular/standalone';
+import { StorageService } from 'src/app/services/storage.service';
+import { AppConstants } from 'src/app/app-constants';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +51,7 @@ export class LoginPage {
     password: false,
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private storageService: StorageService) {}
 
   onBlur(field: 'email' | 'password') {
     this.touched[field] = true;
@@ -80,14 +82,16 @@ export class LoginPage {
     );
   }
 
-  submit(form: any) {
+  async submit(form: any) {
     this.touched['email'] = true;
     this.touched['password'] = true;
     if (!this.isFormValid()) return;
-    console.log('Login payload:', {
-      email: this.model.email,
-      password: this.model.password,
-    });
+
+    const payload = { email: this.model.email, password: this.model.password };
+    await this.storageService.saveToStorage(
+      AppConstants.DATABASE_KEYS.LOGIN_DETAILS,
+      payload
+    );
   }
 
   navigate(path: string) {
