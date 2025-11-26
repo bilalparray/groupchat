@@ -33,73 +33,27 @@ export class AccountService extends BaseService {
   }
 
   async generateToken(
-    tokenReq: TokenRequestSM,
-    rememberUser: boolean
+    tokenReq: TokenRequestSM
   ): Promise<ApiResponse<TokenResponseSM>> {
-    if (!tokenReq || !tokenReq.loginId) {
-      // null checks
+    if (!tokenReq || !tokenReq.username) {
       throw new Error(AppConstants.ERROR_PROMPTS.Invalid_Input_Data);
     } else {
       let apiRequest = new ApiRequest<TokenRequestSM>();
       apiRequest.reqData = tokenReq;
       let resp = await this.accountClient.GenerateToken(apiRequest);
-      // let resp = this.getDummyTokenResp(tokenReq);
       if (!resp.isError && resp.successData != null) {
         this.storageService.saveToStorage(
-          AppConstants.DATABASE_KEYS.REMEMBER_PWD,
-          rememberUser
+          AppConstants.DATABASE_KEYS.ACCESS_TOKEN,
+          resp.successData.accessToken
         );
-        if (rememberUser) {
-          // saveto loacalstroage is commented as we are using indexdb
-          // this.storageService.saveToStorage(
-          //   AppConstants.DATABASE_KEYS.ACCESS_TOKEN,
-          //   resp.successData.accessToken
-          // );
-          // this.storageService.saveToStorage(
-          //   AppConstants.DATABASE_KEYS.LOGIN_USER,
-          //   resp.successData.loginUserDetails
-          // );
-          // this.storageService.saveToStorage(
-          //   AppConstants.DATABASE_KEYS.COMPANY_CODE,
-          //   tokenReq.companyCode
-          // );
-          //indexdb
-          this.storageService.saveToStorage(
-            AppConstants.DATABASE_KEYS.ACCESS_TOKEN,
-            resp.successData.accessToken
-          );
-          this.storageService.saveToStorage(
-            AppConstants.DATABASE_KEYS.USER,
-            tokenReq
-          );
-          this.storageService.saveToStorage(
-            AppConstants.DATABASE_KEYS.LOGIN_DETAILS,
-            resp.successData.loginUserDetails
-          );
-        } else {
-          // this.storageService.saveToSessionStorage(
-          //   AppConstants.DATABASE_KEYS.ACCESS_TOKEN,
-          //   resp.successData.accessToken
-          // );
-          // this.storageService.saveToSessionStorage(
-          //   AppConstants.DATABASE_KEYS.LOGIN_USER,
-          //   resp.successData.loginUserDetails
-          // );
-          // this.storageService.saveToSessionStorage(
-          //   AppConstants.DATABASE_KEYS.COMPANY_CODE,
-          //   tokenReq.companyCode
-          // );
-          ////indexdb
-          this.storageService.saveToSessionStorage(
-            AppConstants.DATABASE_KEYS.LOGIN_DETAILS,
-            resp.successData.loginUserDetails
-          );
-
-          this.storageService.saveToSessionStorage(
-            AppConstants.DATABASE_KEYS.ACCESS_TOKEN,
-            resp.successData.accessToken
-          );
-        }
+        this.storageService.saveToStorage(
+          AppConstants.DATABASE_KEYS.USER,
+          tokenReq
+        );
+        this.storageService.saveToStorage(
+          AppConstants.DATABASE_KEYS.LOGIN_DETAILS,
+          resp.successData.loginUserDetails
+        );
       } else {
         throw new SampleErrorLogModel({
           message: 'Error from api While Login',
@@ -117,7 +71,7 @@ export class AccountService extends BaseService {
     let resp: ApiResponse<TokenResponseSM> = new ApiResponse<TokenResponseSM>();
     let loginUserDetails: LoginUserSM = {
       roleType: RoleTypeSM.Unknown,
-      loginId: req.loginId,
+      loginId: req.username,
       firstName: 'Test First',
       middleName: 'Test Middle',
       lastName: 'Test Last',

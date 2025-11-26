@@ -35,7 +35,7 @@ export class AccountsClient extends BaseApiClient {
     tokenRequestSM: ApiRequest<TokenRequestSM>
   ): Promise<ApiResponse<TokenResponseSM>> => {
     let resp = await this.GetResponseAsync<TokenRequestSM, TokenResponseSM>(
-      `${AppConstants.API_ENDPOINTS.ACCOUNT_URL}/ValidateLoginAndGenerateToken`,
+      `${AppConstants.API_ENDPOINTS.LOGIN}`,
       'POST',
       tokenRequestSM,
       new AdditionalRequestDetails<TokenResponseSM>(false, Authentication.false)

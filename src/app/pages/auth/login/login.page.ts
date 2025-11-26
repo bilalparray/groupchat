@@ -18,6 +18,13 @@ import {
 } from '@ionic/angular/standalone';
 import { StorageService } from 'src/app/services/storage.service';
 import { AppConstants } from 'src/app/app-constants';
+import { BaseComponent } from 'src/app/components/base.component';
+import { LoginViewModel } from 'src/app/models/view/end-user/login.viewmodel';
+import { CommonService } from 'src/app/services/common.service';
+import { LogHandlerService } from 'src/app/services/log-handler.service';
+import { AccountService } from 'src/app/services/account.service';
+import { TokenRequestSM } from 'src/app/models/service/app/token/token-request-s-m';
+import { RoleTypeSM } from 'src/app/models/service/app/enums/role-type-s-m.enum';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +47,7 @@ import { AppConstants } from 'src/app/app-constants';
     IonButton,
   ],
 })
-export class LoginPage {
+export class LoginPage extends BaseComponent<LoginViewModel> {
   model = {
     email: '',
     password: '',
@@ -51,7 +58,16 @@ export class LoginPage {
     password: false,
   };
 
-  constructor(private router: Router, private storageService: StorageService) {}
+  constructor(
+    commonService: CommonService,
+    loghandler: LogHandlerService,
+    private storageService: StorageService,
+    private router: Router,
+    private accountService: AccountService
+  ) {
+    super(commonService, loghandler);
+    this.viewModel = new LoginViewModel();
+  }
 
   onBlur(field: 'email' | 'password') {
     this.touched[field] = true;
@@ -87,12 +103,29 @@ export class LoginPage {
     this.touched['password'] = true;
     if (!this.isFormValid()) return;
 
-    const payload = { email: this.model.email, password: this.model.password };
-    await this.storageService.saveToStorage(
-      AppConstants.DATABASE_KEYS.ACCESS_TOKEN,
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30'
-    );
-    await this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
+    const payload: TokenRequestSM = {
+      username: this.model.email,
+      password: this.model.password,
+    };
+
+    try {
+      let resp = await this.accountService.generateToken(payload);
+      if (resp.isError) {
+        this._commonService.showSweetAlertToast({
+          title: 'Error',
+          text: resp.errorData?.displayMessage,
+          icon: 'error',
+        });
+      } else {
+        this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
+      }
+    } catch (error: any) {
+      this._commonService.showSweetAlertToast({
+        title: 'Error',
+        text: error.message,
+        icon: 'error',
+      });
+    }
   }
 
   async navigate(path: string) {

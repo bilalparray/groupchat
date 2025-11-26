@@ -3,10 +3,9 @@ import { environment } from 'src/environments/environment';
 // TODO: MOVE ALL CONSTANTS HERE
 export const AppConstants = {
   API_ENDPOINTS: {
-    BASE_URL: 'http://localhost:3000',
     LOG_URL: 'http://localhost:3000/api/log',
     CLIENT_USER: 'clientUser',
-    ACCOUNT_URL: 'account',
+    LOGIN: 'login',
   },
   DATABASE_KEYS: {
     USER: 'USER',

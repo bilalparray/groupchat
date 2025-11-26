@@ -33,7 +33,7 @@ export class AuthGuard {
       return false;
     }
     const expectedRole = route.data['allowedRole'];
-    debugger;
+
     let isValidRole = false;
     for (let index = 0; index < expectedRole.length; index++) {
       if (!isValidRole)
