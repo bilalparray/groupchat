@@ -4,6 +4,8 @@ import { LayoutViewModel, LoaderInfo } from '../models/internal/common-models';
 import { SweetAlertOptions } from '../models/internal/custom-sweet-alert-options';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToastController, LoadingController } from '@ionic/angular/standalone';
+import { Capacitor } from '@capacitor/core';
+import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
 declare var Swal: any;
 @Injectable({
   providedIn: 'root',
@@ -100,6 +102,16 @@ export class CommonService extends BaseService {
     });
 
     await loading.present();
-    return loading; // return loader reference
+    return loading;
+  }
+
+  async getPlatform() {
+    return Capacitor.getPlatform();
+  }
+
+  async enableEdgeToEdge() {
+    if ((await this.getPlatform()) !== 'web') {
+      await EdgeToEdge.enable();
+    }
   }
 }

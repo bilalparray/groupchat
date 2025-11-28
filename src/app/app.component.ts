@@ -70,12 +70,20 @@ export class AppComponent extends BaseComponent<AppViewModel> {
   }
 
   async ngOnInit() {
+    await this.toggleMenuOptions();
+    await this.enableEdgeToEdge();
+  }
+
+  async toggleMenuOptions() {
     let accessToken = await this.storageService.getFromStorage(
       AppConstants.DATABASE_KEYS.ACCESS_TOKEN
     );
     const hasToken =
       accessToken !== null && accessToken !== undefined && accessToken !== '';
     this.viewModel.isUserLoggedIn.set(hasToken);
-    await EdgeToEdge.enable();
+  }
+
+  async enableEdgeToEdge() {
+    await this._commonService.enableEdgeToEdge();
   }
 }

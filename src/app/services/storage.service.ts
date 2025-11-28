@@ -1,14 +1,14 @@
 // src/app/services/storage.service.ts
 
-import { Injectable } from "@angular/core";
-import { openDB, IDBPDatabase } from "idb";
-import { environment } from "src/environments/environment";
-import { BaseService } from "./base.service";
-import { AppConstants } from "src/app/app-constants";
-import { IndexedDBStorage } from "../models/internal/common-models";
+import { Injectable } from '@angular/core';
+import { openDB, IDBPDatabase } from 'idb';
+import { environment } from 'src/environments/environment';
+import { BaseService } from './base.service';
+import { AppConstants } from 'src/app/app-constants';
+import { IndexedDBStorage } from '../models/internal/common-models';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class StorageService extends BaseService {
   // ──────── FIELDS ─────────────────────────────────────────────────────────
@@ -54,21 +54,18 @@ export class StorageService extends BaseService {
    * calls and ensure a single database connection.
    */
   private async openIndexedDB(): Promise<IDBPDatabase<IndexedDBStorage>> {
-    console.log("[StorageService] openIndexedDB() called");
-
     const db = await openDB<IndexedDBStorage>(
       environment.indexedDBName,
       environment.indexedDBVersion,
       {
         upgrade(db) {
-          if (!db.objectStoreNames.contains("localStorage")) {
-            db.createObjectStore("localStorage");
+          if (!db.objectStoreNames.contains('localStorage')) {
+            db.createObjectStore('localStorage');
           }
         },
       }
     );
 
-    console.log("[StorageService] IndexedDB opened:", db);
     return db;
   }
 
@@ -89,7 +86,7 @@ export class StorageService extends BaseService {
     const db = await this.dbPromise;
 
     // Use the IDBPDatabase.get() method (not localStorage.getItem())
-    const encrypted: string = (await db.get("localStorage", key)) || "";
+    const encrypted: string = (await db.get('localStorage', key)) || '';
     if (!encrypted) {
       return null;
     }
@@ -114,11 +111,11 @@ export class StorageService extends BaseService {
 
     // Convert objects to JSON strings; leave real strings as-is
     const rawString: string =
-      typeof val !== "string" ? JSON.stringify(val) : (val as string);
+      typeof val !== 'string' ? JSON.stringify(val) : (val as string);
 
     // Encrypt the raw JSON/string before storing
     const encrypted: string = await this.encrypt(rawString);
-    await db.put("localStorage", encrypted, key);
+    await db.put('localStorage', encrypted, key);
   }
 
   /**
@@ -129,7 +126,7 @@ export class StorageService extends BaseService {
    */
   async removeFromStorage(key: string): Promise<void> {
     const db = await this.dbPromise;
-    await db.delete("localStorage", key);
+    await db.delete('localStorage', key);
   }
 
   /**
@@ -138,7 +135,7 @@ export class StorageService extends BaseService {
    */
   async clearStorage(): Promise<void> {
     const db = await this.dbPromise;
-    await db.clear("localStorage");
+    await db.clear('localStorage');
   }
 
   // ──────── SESSION STORAGE METHODS ───────────────────────────────────────────
@@ -154,7 +151,7 @@ export class StorageService extends BaseService {
    */
   async saveToSessionStorage(key: string, val: any): Promise<void> {
     const rawString: string =
-      typeof val !== "string" ? JSON.stringify(val) : (val as string);
+      typeof val !== 'string' ? JSON.stringify(val) : (val as string);
 
     const encrypted: string = await this.encrypt(rawString);
     this._sessionStorage.setItem(key, encrypted);
@@ -168,7 +165,7 @@ export class StorageService extends BaseService {
    * @returns    The parsed object (if stored), or null if not found.
    */
   async getFromSessionStorage(key: string): Promise<any> {
-    const encrypted: string = this._sessionStorage.getItem(key) || "";
+    const encrypted: string = this._sessionStorage.getItem(key) || '';
     if (!encrypted) {
       return null;
     }

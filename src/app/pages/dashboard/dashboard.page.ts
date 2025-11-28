@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -19,6 +19,8 @@ import { DashboardViewModel } from 'src/app/models/view/end-user/dashboard.viewm
 import { addIcons } from 'ionicons';
 import { lockClosed, logOutOutline } from 'ionicons/icons';
 import { AccountService } from 'src/app/services/account.service';
+import { AppConstants } from 'src/app/app-constants';
+import { ClientUserSM } from 'src/app/models/service/app/v1/app-users/client-user-s-m';
 
 @Component({
   selector: 'app-dashboard',
@@ -54,7 +56,12 @@ export class DashboardPage
     addIcons({ logOutOutline, lockClosed });
   }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    let user: any = await this.storageService.getFromStorage(
+      AppConstants.DATABASE_KEYS.USER
+    );
+    this.viewModel.user = user.username;
+  }
 
   async logout() {
     const loader = await this._commonService.presentIonicLoader(

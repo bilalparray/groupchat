@@ -119,24 +119,34 @@ export class RegisterPage extends BaseComponent<RegisterViewModel> {
     this.touched['email'] = true;
     this.touched['password'] = true;
     this.touched['confirmPassword'] = true;
-
     if (!this.isFormValid()) return;
 
-    // Replace this with actual registration call
     const payload: ClientUserSM = {
       username: this.viewModel.email,
       email: this.viewModel.email,
       password: this.viewModel.password,
       role: this._commonService.singleEnumToString(RoleTypeSM, 3),
     };
+
     const loader = await this._commonService.presentIonicLoader(
       'Authenticating...'
     );
-    let resp = await this.accountService.Register(payload);
-    if (resp.successData && resp.successData != null) {
-      this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
+
+    try {
+      const resp = await this.accountService.Register(payload);
+
+      if (resp?.successData) {
+        this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
+      }
+    } catch (err: any) {
+      await this._commonService.presentIonicToast(
+        'bottom',
+        err?.displayMessage || err?.message || 'Registration failed',
+        3000
+      );
+    } finally {
+      await loader?.dismiss();
     }
-    loader.dismiss();
   }
 
   navigate(path: string) {

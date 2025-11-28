@@ -18,6 +18,7 @@ import { ForgotPasswordSM } from '../models/service/app/v1/app-users/forgot-pass
 import { ResetPasswordRequestSM } from '../models/service/app/v1/app-users/reset-password-request-s-m';
 import { VerifyEmailRequestSM } from '../models/service/app/v1/app-users/verify-email-request-s-m';
 import { SampleErrorLogModel } from '../models/internal/sample-error-model';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,8 @@ export class AccountService extends BaseService {
   constructor(
     private accountClient: AccountsClient,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    private commonService: CommonService
   ) {
     super();
   }
