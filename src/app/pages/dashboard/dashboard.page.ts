@@ -8,12 +8,17 @@ import {
   IonToolbar,
   IonButtons,
   IonMenuButton,
+  IonButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { BaseComponent } from 'src/app/components/base.component';
 import { CommonService } from 'src/app/services/common.service';
 import { LogHandlerService } from 'src/app/services/log-handler.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { DashboardViewModel } from 'src/app/models/view/end-user/dashboard.viewmodel';
+import { addIcons } from 'ionicons';
+import { lockClosed, logOutOutline } from 'ionicons/icons';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +26,7 @@ import { DashboardViewModel } from 'src/app/models/view/end-user/dashboard.viewm
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
   imports: [
+    IonButton,
     IonButtons,
     IonMenuButton,
     IonContent,
@@ -29,6 +35,8 @@ import { DashboardViewModel } from 'src/app/models/view/end-user/dashboard.viewm
     IonToolbar,
     CommonModule,
     FormsModule,
+    IonButton,
+    IonIcon,
   ],
 })
 export class DashboardPage
@@ -38,11 +46,21 @@ export class DashboardPage
   constructor(
     commonService: CommonService,
     loghandler: LogHandlerService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private accountService: AccountService
   ) {
     super(commonService, loghandler);
     this.viewModel = new DashboardViewModel();
+    addIcons({ logOutOutline, lockClosed });
   }
 
   ngOnInit() {}
+
+  async logout() {
+    const loader = await this._commonService.presentIonicLoader(
+      'Logging out...'
+    );
+    await this.accountService.logoutUser();
+    loader.dismiss();
+  }
 }

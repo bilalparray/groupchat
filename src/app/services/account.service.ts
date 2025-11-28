@@ -76,20 +76,7 @@ export class AccountService extends BaseService {
         AppConstants.DATABASE_KEYS.LOGIN_DETAILS
       );
 
-      // this.storageService.removeFromStorage(
-      //   AppConstants.DATABASE_KEYS.REMEMBER_PWD
-      // );
-      ///indexdb
-      await this.storageService.removeFromStorage(
-        AppConstants.DATABASE_KEYS.ACCESS_TOKEN
-      );
-      this.storageService.removeFromStorage(
-        AppConstants.DATABASE_KEYS.LOGIN_DETAILS
-      );
-
-      // this.storageService.removeFromStorage(
-      //   AppConstants.DATABASE_KEYS.REMEMBER_PWD
-      // );
+      this.storageService.removeFromStorage(AppConstants.DATABASE_KEYS.USER);
     } catch (error) {
       this.storageService.clearStorage();
       this.storageService.clearStorage();
