@@ -127,7 +127,7 @@ export class RegisterPage extends BaseComponent<RegisterViewModel> {
       username: this.viewModel.email,
       email: this.viewModel.email,
       password: this.viewModel.password,
-      role: 'Admin',
+      role: this._commonService.singleEnumToString(RoleTypeSM, 3),
     };
     let resp = await this.accountService.Register(payload);
     if (resp.successData && resp.successData != null) {

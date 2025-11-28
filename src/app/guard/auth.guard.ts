@@ -33,7 +33,6 @@ export class AuthGuard {
       return false;
     }
     const expectedRole = route.data['allowedRole'];
-
     let isValidRole = false;
     for (let index = 0; index < expectedRole.length; index++) {
       if (!isValidRole)
@@ -82,7 +81,11 @@ export class AuthGuard {
     );
 
     const tokenPayload: any = jwtDecode(token);
-    let role: any = RoleTypeSM[tokenPayload[AppConstants.TOKEN_KEY_NAMES.Role]];
+    const rawRole =
+      tokenPayload[AppConstants.TOKEN_KEY_NAMES.Role] ||
+      tokenPayload['role'] ||
+      tokenPayload['Role'];
+    let role: any = RoleTypeSM[rawRole];
     this.commonService.layoutViewModel.loggedInUserType = role;
     return role;
   }

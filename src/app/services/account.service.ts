@@ -39,7 +39,6 @@ export class AccountService extends BaseService {
     } else {
       let apiRequest = new ApiRequest<TokenRequestSM>();
       apiRequest.reqData = tokenReq;
-      debugger;
 
       let resp = await this.accountClient.GenerateToken(apiRequest);
       if (!resp.isError && resp.successData != null) {
@@ -56,8 +55,6 @@ export class AccountService extends BaseService {
           resp.successData.loginUserDetails
         );
       } else {
-        debugger;
-
         throw new SampleErrorLogModel({
           message: 'Error from api While Login',
           displayMessage: resp.errorData?.displayMessage,

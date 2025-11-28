@@ -78,7 +78,6 @@ export class PaginationComponent
     this.viewModel.totalPages = this.getPagesCountArray(this.viewModel);
   }
   // ngOnChanges(changes: SimpleChanges): void {
-  //   // debugger;
   //   this.viewModel.totalPages = this.getPagesCountArray1(changes['viewModel'].currentValue);
 
   // }
