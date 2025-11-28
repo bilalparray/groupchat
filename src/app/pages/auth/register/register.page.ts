@@ -129,10 +129,14 @@ export class RegisterPage extends BaseComponent<RegisterViewModel> {
       password: this.viewModel.password,
       role: this._commonService.singleEnumToString(RoleTypeSM, 3),
     };
+    const loader = await this._commonService.presentIonicLoader(
+      'Authenticating...'
+    );
     let resp = await this.accountService.Register(payload);
     if (resp.successData && resp.successData != null) {
       this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
     }
+    loader.dismiss();
   }
 
   navigate(path: string) {

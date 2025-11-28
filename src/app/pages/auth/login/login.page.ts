@@ -102,11 +102,14 @@ export class LoginPage extends BaseComponent<LoginViewModel> {
       username: this.viewModel.email,
       password: this.viewModel.password,
     };
-
+    const loader = await this._commonService.presentIonicLoader(
+      'Authenticating...'
+    );
     let resp = await this.accountService.generateToken(payload);
     if (resp.successData && resp.successData != null) {
       this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
     }
+    loader.dismiss();
   }
 
   async navigate(path: string) {

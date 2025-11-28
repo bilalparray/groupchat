@@ -3,7 +3,7 @@ import { BaseService } from './base.service';
 import { LayoutViewModel, LoaderInfo } from '../models/internal/common-models';
 import { SweetAlertOptions } from '../models/internal/custom-sweet-alert-options';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { ToastController } from '@ionic/angular/standalone';
+import { ToastController, LoadingController } from '@ionic/angular/standalone';
 declare var Swal: any;
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,8 @@ export class CommonService extends BaseService {
   loaderInfo: LoaderInfo = { message: '', showLoader: false };
   constructor(
     private ngxService: NgxUiLoaderService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private loadingCtrl: LoadingController
   ) {
     super();
   }
@@ -89,5 +90,16 @@ export class CommonService extends BaseService {
     });
 
     await toast.present();
+  }
+
+  async presentIonicLoader(message: string, duration?: number) {
+    const loading = await this.loadingCtrl.create({
+      message,
+      duration,
+      spinner: 'circles',
+    });
+
+    await loading.present();
+    return loading; // return loader reference
   }
 }
