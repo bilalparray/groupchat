@@ -3,7 +3,7 @@ import { BaseService } from './base.service';
 import { LayoutViewModel, LoaderInfo } from '../models/internal/common-models';
 import { SweetAlertOptions } from '../models/internal/custom-sweet-alert-options';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-
+import { ToastController } from '@ionic/angular/standalone';
 declare var Swal: any;
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,10 @@ export class CommonService extends BaseService {
   layoutViewModel: LayoutViewModel = new LayoutViewModel();
   showNav: boolean = true;
   loaderInfo: LoaderInfo = { message: '', showLoader: false };
-  constructor(private ngxService: NgxUiLoaderService) {
+  constructor(
+    private ngxService: NgxUiLoaderService,
+    private toastController: ToastController
+  ) {
     super();
   }
   handleEnterKey(event: any): void {
@@ -70,5 +73,21 @@ export class CommonService extends BaseService {
       .filter(StringIsNumber)
       .map((key) => enumme[key])[selectedValue];
     return x;
+  }
+
+  async presentIonicToast(
+    position: 'top' | 'middle' | 'bottom',
+    msg: string,
+    time?: number,
+    cssClass?: string
+  ) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: time,
+      position: position,
+      cssClass: cssClass,
+    });
+
+    await toast.present();
   }
 }

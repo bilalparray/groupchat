@@ -11,6 +11,8 @@ export class LoginViewModel extends BaseViewModel {
   rolesList!: { key: RoleTypeSM; value: string }[];
   showPassword: boolean = false;
   rememberMe: boolean = true;
+  email!: string;
+  password!: string;
 
   override controlsInformation: { [key: string]: InputControlInformation } = {
     companyCode: {

@@ -13,30 +13,30 @@
       <!-- Email -->
       <ion-item>
         <ion-label position="stacked">Email</ion-label>
-        <ion-input type="email" name="email" required email [(ngModel)]="model.email" (blur)="onBlur('email')"
+        <ion-input type="email" name="email" required email [(ngModel)]="viewModel.email" (blur)="onBlur('email')"
           [attr.autocomplete]="'email'">
         </ion-input>
       </ion-item>
       @if (showError('email')) {
       <div class="validation">
-        @if (!model.email || model.email.trim() === '') {
+        @if (!viewModel.email || viewModel.email.trim() === '') {
         <small>Email is required.</small>
-        }@else if(model.email && !isValidEmail(model.email)) {
+        }@else if(viewModel.email && !isValidEmail(viewModel.email)) {
         <small>Enter a valid email address.</small>}
       </div>}
 
       <!-- Password -->
       <ion-item>
         <ion-label position="stacked">Password</ion-label>
-        <ion-input type="password" name="password" required minlength="6" [(ngModel)]="model.password"
+        <ion-input type="password" name="password" required minlength="6" [(ngModel)]="viewModel.password"
           (blur)="onBlur('password')" [attr.autocomplete]="'new-password'">
         </ion-input>
       </ion-item>
       @if (showError('password')) {
       <div class="validation">
-        @if (!model.password || model.password.trim() === '') {
+        @if (!viewModel.password || viewModel.password.trim() === '') {
         <small>Password is required.</small>
-        } @else if (model.password && model.password.length < 6) { <small>Password must be at least 6
+        } @else if (viewModel.password && viewModel.password.length < 6) { <small>Password must be at least 6
           characters.</small>
           }
       </div>
@@ -46,17 +46,18 @@
       <!-- Confirm Password -->
       <ion-item>
         <ion-label position="stacked">Confirm Password</ion-label>
-        <ion-input type="password" name="confirmPassword" required minlength="6" [(ngModel)]="model.confirmPassword"
+        <ion-input type="password" name="confirmPassword" required minlength="6" [(ngModel)]="viewModel.confirmPassword"
           (blur)="onBlur('confirmPassword')" [attr.autocomplete]="'new-password'">
         </ion-input>
       </ion-item>
       @if (showError('confirmPassword')) {
       <div class="validation">
-        @if (!model.confirmPassword || model.confirmPassword.trim() === '') {
+        @if (!viewModel.confirmPassword || viewModel.confirmPassword.trim() === '') {
         <small>Confirm Password is required.</small>
-        } @else if (model.confirmPassword && model.confirmPassword.length < 6) { <small>Confirm Password must be at
+        } @else if (viewModel.confirmPassword && viewModel.confirmPassword.length < 6) { <small>Confirm Password must be
+          at
           least 6 characters.</small>
-          } @else if (model.confirmPassword && model.confirmPassword.length >= 6 && !passwordsMatch()) {
+          } @else if (viewModel.confirmPassword && viewModel.confirmPassword.length >= 6 && !passwordsMatch()) {
           <small>Passwords do not match.</small>
           }
       </div>

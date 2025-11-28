@@ -18,7 +18,6 @@ import { ForgotPasswordSM } from '../models/service/app/v1/app-users/forgot-pass
 import { ResetPasswordRequestSM } from '../models/service/app/v1/app-users/reset-password-request-s-m';
 import { VerifyEmailRequestSM } from '../models/service/app/v1/app-users/verify-email-request-s-m';
 import { SampleErrorLogModel } from '../models/internal/sample-error-model';
-import { SocialLoginSM } from '../models/service/app/v1/app-users/social-login-s-m';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +39,8 @@ export class AccountService extends BaseService {
     } else {
       let apiRequest = new ApiRequest<TokenRequestSM>();
       apiRequest.reqData = tokenReq;
+      debugger;
+
       let resp = await this.accountClient.GenerateToken(apiRequest);
       if (!resp.isError && resp.successData != null) {
         this.storageService.saveToStorage(
@@ -55,6 +56,8 @@ export class AccountService extends BaseService {
           resp.successData.loginUserDetails
         );
       } else {
+        debugger;
+
         throw new SampleErrorLogModel({
           message: 'Error from api While Login',
           displayMessage: resp.errorData?.displayMessage,
@@ -65,43 +68,6 @@ export class AccountService extends BaseService {
       }
       return resp;
     }
-  }
-  getDummyTokenResp(req: TokenRequestSM): ApiResponse<TokenResponseSM> {
-    // throw new Error('Method not implemented.');
-    let resp: ApiResponse<TokenResponseSM> = new ApiResponse<TokenResponseSM>();
-    let loginUserDetails: LoginUserSM = {
-      roleType: RoleTypeSM.Unknown,
-      loginId: req.username,
-      firstName: 'Test First',
-      middleName: 'Test Middle',
-      lastName: 'Test Last',
-      emailId: 'Test@test.test',
-      isEmailConfirmed: false,
-      passwordHash: '',
-      phoneNumber: '',
-      profilePicturePath: '',
-      isPhoneNumberConfirmed: false,
-      dateOfBirth: new Date('01-12-2000'),
-      id: 1,
-      createdBy: '',
-      lastModifiedBy: '',
-      createdOnUTC: new Date(),
-      loginStatus: LoginStatusSM.Enabled,
-      lastModifiedOnUTC: new Date(),
-    };
-    let tokenresp: TokenResponseSM = {
-      accessToken: 'thisistestaccesstoken',
-      expiresUtc: new Date(),
-      loginUserDetails: loginUserDetails,
-      clientCompanyId: 1,
-      message: '',
-    };
-
-    resp.axiosResponse = {};
-    resp.isError = false;
-    resp.responseStatusCode = 200;
-    resp.successData = tokenresp;
-    return resp;
   }
 
   async logoutUser() {

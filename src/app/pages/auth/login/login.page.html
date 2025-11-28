@@ -12,16 +12,16 @@
     <ion-list>
       <ion-item>
         <ion-label position="stacked">Email</ion-label>
-        <ion-input type="email" name="email" required email [(ngModel)]="model.email" (blur)="onBlur('email')"
+        <ion-input type="email" name="email" required email [(ngModel)]="viewModel.email" (blur)="onBlur('email')"
           [attr.autocomplete]="'email'">
         </ion-input>
       </ion-item>
 
       @if (showError('email')) {
       <div class="validation">
-        @if (!model.email || model.email.trim() === '') {
+        @if (!viewModel.email || viewModel.email.trim() === '') {
         <small>Email is required.</small>
-        } @else if (model.email && !isValidEmail(model.email)) {
+        } @else if (viewModel.email && !isValidEmail(viewModel.email)) {
         <small>Enter a valid email address.</small>
         }
       </div>
@@ -29,16 +29,16 @@
 
       <ion-item>
         <ion-label position="stacked">Password</ion-label>
-        <ion-input type="password" name="password" required minlength="6" [(ngModel)]="model.password"
+        <ion-input type="password" name="password" required minlength="6" [(ngModel)]="viewModel.password"
           (blur)="onBlur('password')" [attr.autocomplete]="'current-password'">
         </ion-input>
       </ion-item>
 
       @if (showError('password')) {
       <div class="validation">
-        @if (!model.password || model.password.trim() === '') {
+        @if (!viewModel.password || viewModel.password.trim() === '') {
         <small>Password is required.</small>
-        } @else if (model.password && model.password.length < 6) { <small>Password must be at least 6
+        } @else if (viewModel.password && viewModel.password.length < 6) { <small>Password must be at least 6
           characters.</small>
           }
       </div>

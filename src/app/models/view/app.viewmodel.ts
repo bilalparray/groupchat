@@ -16,6 +16,5 @@ export class AppViewModel extends BaseViewModel {
       url: AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD,
       icon: 'home-outline',
     },
-    { title: 'About', url: '/about', icon: 'information-circle-outline' },
   ];
 }

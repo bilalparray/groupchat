@@ -6,6 +6,7 @@ export const AppConstants = {
     LOG_URL: 'http://localhost:3000/api/log',
     CLIENT_USER: 'clientUser',
     LOGIN: 'login',
+    REGISTER: 'register',
   },
   DATABASE_KEYS: {
     USER: 'USER',

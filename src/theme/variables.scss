@@ -1,2 +1,10 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+ion-toast.success {
+  --background: #28a745;
+  --color: #fff;
+}
+ion-toast.error {
+  --background: #fc0000 !important;
+  --color: #fff;
+}

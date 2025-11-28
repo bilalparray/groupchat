@@ -47,7 +47,7 @@ export class AccountsClient extends BaseApiClient {
     addUserRequest: ApiRequest<ClientUserSM>
   ): Promise<ApiResponse<BoolResponseRoot>> => {
     let resp = await this.GetResponseAsync<ClientUserSM, BoolResponseRoot>(
-      `${AppConstants.API_ENDPOINTS.CLIENT_USER}?companyCode=${environment}`,
+      `${AppConstants.API_ENDPOINTS.REGISTER}`,
       'POST',
       addUserRequest,
       new AdditionalRequestDetails<BoolResponseRoot>(

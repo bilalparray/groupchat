@@ -48,11 +48,6 @@ import { RoleTypeSM } from 'src/app/models/service/app/enums/role-type-s-m.enum'
   ],
 })
 export class LoginPage extends BaseComponent<LoginViewModel> {
-  model = {
-    email: '',
-    password: '',
-  };
-
   touched: { [key: string]: boolean } = {
     email: false,
     password: false,
@@ -81,20 +76,20 @@ export class LoginPage extends BaseComponent<LoginViewModel> {
   showError(field: 'email' | 'password'): boolean {
     if (!this.touched[field]) return false;
     if (field === 'email') {
-      return !this.model.email || !this.isValidEmail(this.model.email);
+      return !this.viewModel.email || !this.isValidEmail(this.viewModel.email);
     }
     if (field === 'password') {
-      return !this.model.password || this.model.password.length < 6;
+      return !this.viewModel.password || this.viewModel.password.length < 6;
     }
     return false;
   }
 
   isFormValid(): boolean {
     return (
-      !!this.model.email &&
-      this.isValidEmail(this.model.email) &&
-      !!this.model.password &&
-      this.model.password.length >= 6
+      !!this.viewModel.email &&
+      this.isValidEmail(this.viewModel.email) &&
+      !!this.viewModel.password &&
+      this.viewModel.password.length >= 6
     );
   }
 
@@ -104,27 +99,13 @@ export class LoginPage extends BaseComponent<LoginViewModel> {
     if (!this.isFormValid()) return;
 
     const payload: TokenRequestSM = {
-      username: this.model.email,
-      password: this.model.password,
+      username: this.viewModel.email,
+      password: this.viewModel.password,
     };
 
-    try {
-      let resp = await this.accountService.generateToken(payload);
-      if (resp.isError) {
-        this._commonService.showSweetAlertToast({
-          title: 'Error',
-          text: resp.errorData?.displayMessage,
-          icon: 'error',
-        });
-      } else {
-        this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
-      }
-    } catch (error: any) {
-      this._commonService.showSweetAlertToast({
-        title: 'Error',
-        text: error.message,
-        icon: 'error',
-      });
+    let resp = await this.accountService.generateToken(payload);
+    if (resp.successData && resp.successData != null) {
+      this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
     }
   }
 
