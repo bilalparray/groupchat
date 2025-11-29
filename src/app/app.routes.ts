@@ -5,7 +5,7 @@ import { RoleTypeSM } from './models/service/app/enums/role-type-s-m.enum';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
   },
 
