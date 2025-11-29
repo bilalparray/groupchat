@@ -29,6 +29,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/dashboard/dashboard.page').then((m) => m.DashboardPage),
     canActivate: [AuthGuard],
-    data: { allowedRole: [RoleTypeSM.Admin, RoleTypeSM.Guest] },
+    data: { allowedRole: [RoleTypeSM.Admin] },
   },
 ];

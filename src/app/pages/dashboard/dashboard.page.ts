@@ -89,7 +89,7 @@ export class DashboardPage
 
       if (resp?.successData) {
         this._commonService.presentIonicToast(
-          'bottom',
+          'middle',
           'Key Generated Successfully',
           3000
         );
