@@ -17,10 +17,17 @@ import { LogHandlerService } from 'src/app/services/log-handler.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { DashboardViewModel } from 'src/app/models/view/end-user/dashboard.viewmodel';
 import { addIcons } from 'ionicons';
-import { lockClosed, logOutOutline } from 'ionicons/icons';
+import {
+  lockClosed,
+  logOutOutline,
+  key,
+  searchOutline,
+  keyOutline,
+} from 'ionicons/icons';
 import { AccountService } from 'src/app/services/account.service';
 import { AppConstants } from 'src/app/app-constants';
 import { ClientUserSM } from 'src/app/models/service/app/v1/app-users/client-user-s-m';
+import { DashboardService } from 'src/app/services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -49,11 +56,12 @@ export class DashboardPage
     commonService: CommonService,
     loghandler: LogHandlerService,
     private storageService: StorageService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private dashboardService: DashboardService
   ) {
     super(commonService, loghandler);
     this.viewModel = new DashboardViewModel();
-    addIcons({ logOutOutline, lockClosed });
+    addIcons({ key, searchOutline, logOutOutline, lockClosed, keyOutline });
   }
 
   async ngOnInit() {
@@ -69,5 +77,35 @@ export class DashboardPage
     );
     await this.accountService.logoutUser();
     loader.dismiss();
+  }
+
+  async generateKey() {
+    const loader = await this._commonService.presentIonicLoader(
+      'Generating Key...'
+    );
+
+    try {
+      const resp = await this.dashboardService.GenerateGuestKey();
+
+      if (resp?.successData) {
+        this._commonService.presentIonicToast(
+          'bottom',
+          'Key Generated Successfully',
+          3000
+        );
+        this.storageService.saveToStorage(
+          AppConstants.DATABASE_KEYS.GUEST_KEY,
+          resp.successData
+        );
+      }
+    } catch (err: any) {
+      await this._commonService.presentIonicToast(
+        'bottom',
+        err?.displayMessage || err?.message || 'Error occurred',
+        3000
+      );
+    } finally {
+      await loader?.dismiss();
+    }
   }
 }

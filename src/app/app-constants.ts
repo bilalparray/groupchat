@@ -7,6 +7,7 @@ export const AppConstants = {
     CLIENT_USER: 'clientUser',
     LOGIN: 'login',
     REGISTER: 'register',
+    GENERATE_KEY: 'generate-guest-key',
   },
   DATABASE_KEYS: {
     USER: 'USER',
@@ -18,6 +19,7 @@ export const AppConstants = {
     EXCEPTION_LOGS: 'EXCEPTION_LOGS',
     API_RESP_CACHE: 'API_RESP_CACHE',
     AUTOMATION_TOKEN: 'AUTOMATION_TOKEN',
+    GUEST_KEY: 'GUEST_KEY',
   },
   DATABASE_DEFAULT_VALUES: {},
   ERROR_PROMPTS: {

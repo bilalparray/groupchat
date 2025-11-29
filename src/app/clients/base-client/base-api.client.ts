@@ -1,22 +1,22 @@
-import { Method, AxiosResponse } from "axios";
-import { AppConstants } from "src/app/app-constants";
+import { Method, AxiosResponse } from 'axios';
+import { AppConstants } from 'src/app/app-constants';
 import {
   AdditionalRequestDetails,
   Authentication,
-} from "src/app/models/internal/additional-request-details";
-import { DictionaryCollection } from "src/app/models/internal/dictionary-collection";
-import { IDictionaryCollection } from "src/app/models/internal/Idictionary-collection";
-import { StorageService } from "src/app/services/storage.service";
-import { environment } from "src/environments/environment";
-import { CommonResponseCodeHandler } from "../helpers/common-response-code-handler.helper";
-import { CommonUtils } from "../helpers/common-utils.helper";
-import { StorageCache } from "../helpers/storage-cache.helper";
-import { BaseAjaxClient } from "./base-ajax.client";
-import { ApiRequest } from "src/app/models/service/foundation/api-contracts/base/api-request";
-import { ApiResponse } from "src/app/models/service/foundation/api-contracts/base/api-response";
-import { ErrorData } from "src/app/models/service/foundation/api-contracts/error-data";
-import { QueryFilter } from "src/app/models/service/foundation/api-contracts/query-filter";
-import { ApiErrorTypeSM } from "src/app/models/service/foundation/enums/api-error-type-s-m.enum";
+} from 'src/app/models/internal/additional-request-details';
+import { DictionaryCollection } from 'src/app/models/internal/dictionary-collection';
+import { IDictionaryCollection } from 'src/app/models/internal/Idictionary-collection';
+import { StorageService } from 'src/app/services/storage.service';
+import { environment } from 'src/environments/environment';
+import { CommonResponseCodeHandler } from '../helpers/common-response-code-handler.helper';
+import { CommonUtils } from '../helpers/common-utils.helper';
+import { StorageCache } from '../helpers/storage-cache.helper';
+import { BaseAjaxClient } from './base-ajax.client';
+import { ApiRequest } from 'src/app/models/service/foundation/api-contracts/base/api-request';
+import { ApiResponse } from 'src/app/models/service/foundation/api-contracts/base/api-response';
+import { ErrorData } from 'src/app/models/service/foundation/api-contracts/error-data';
+import { QueryFilter } from 'src/app/models/service/foundation/api-contracts/query-filter';
+import { ApiErrorTypeSM } from 'src/app/models/service/foundation/enums/api-error-type-s-m.enum';
 
 export abstract class BaseApiClient extends BaseAjaxClient {
   constructor(
@@ -28,7 +28,7 @@ export abstract class BaseApiClient extends BaseAjaxClient {
   }
   protected GetResponseAsync = async <InReq, OutResp>(
     relativeUrl: string,
-    reqMethod: Method = "GET",
+    reqMethod: Method = 'GET',
     reqBody: ApiRequest<InReq> | null = null,
     additionalRequestDetails: AdditionalRequestDetails<OutResp> = new AdditionalRequestDetails<OutResp>(
       false
@@ -38,7 +38,7 @@ export abstract class BaseApiClient extends BaseAjaxClient {
     let axiosResp: AxiosResponse<any> | null = null;
     if (additionalRequestDetails == null)
       throw new Error(
-        "AdditionalRequestDetails cannot be null, do not pass if not required."
+        'AdditionalRequestDetails cannot be null, do not pass if not required.'
       );
 
     try {
@@ -59,18 +59,18 @@ export abstract class BaseApiClient extends BaseAjaxClient {
           additionalRequestDetails.headers
         );
         if (additionalRequestDetails.enableAuth === Authentication.true) {
-          let token: string = await this.storageService.getDataFromAnyStorage(
+          let token: string = await this.storageService.getFromStorage(
             AppConstants.DATABASE_KEYS.ACCESS_TOKEN
           );
           // let token: string = await this.storageservice.getDataFromAnyStorage(
           //   AppConstants.DATABASE_KEYS.ACCESS_TOKEN
           // );
-          if (token == null || token === "")
+          if (token == null || token === '')
             throw new Error(`Token not found for URL - '${relativeUrl}'.`);
           else
             additionalRequestDetails.headers.Add(
-              "Authorization",
-              "Bearer " + token
+              'Authorization',
+              'Bearer ' + token
             );
         } else if (
           additionalRequestDetails.enableAuth === Authentication.automationToken
@@ -81,22 +81,22 @@ export abstract class BaseApiClient extends BaseAjaxClient {
           let token: string = await this.storageService.getFromStorage(
             AppConstants.DATABASE_KEYS.AUTOMATION_TOKEN
           );
-          if (token == null || token === "")
+          if (token == null || token === '')
             throw new Error(
               `Automation-Token not found for URL - '${relativeUrl}'.`
             );
           else
             additionalRequestDetails.headers.Add(
-              "Authorization",
-              "Bearer " + token
+              'Authorization',
+              'Bearer ' + token
             );
         }
-        if (reqMethod === "GET") {
+        if (reqMethod === 'GET') {
           // validations
           // eg no body, proper url etc
-        } else if (reqMethod === "POST") {
+        } else if (reqMethod === 'POST') {
           // validations
-        } else if (reqMethod === "DELETE") {
+        } else if (reqMethod === 'DELETE') {
           // validations
         }
 
@@ -124,7 +124,7 @@ export abstract class BaseApiClient extends BaseAjaxClient {
           additionalRequestDetails.custRespResolver
         );
         if (responseEntity == null) {
-          throw new Error("Null Response Formed.");
+          throw new Error('Null Response Formed.');
         }
 
         // add response to cache if applicable
@@ -137,7 +137,7 @@ export abstract class BaseApiClient extends BaseAjaxClient {
         return responseEntity;
       }
     } catch (x) {
-      let msg = "";
+      let msg = '';
       if (x instanceof Error) msg = x.message;
       else msg = JSON.stringify(x);
       const resp = this.CreateGenericApiResponseObject<OutResp>(msg);
@@ -233,8 +233,8 @@ export abstract class BaseApiClient extends BaseAjaxClient {
 
     // Build filter expression from searchText & searchColumns
     const dynamicSearchFilter = this.buildFilterExpression(
-      queryFilter.searchColumns || "",
-      queryFilter.searchText || ""
+      queryFilter.searchColumns || '',
+      queryFilter.searchText || ''
     );
 
     // Combine with manual filter if both exist
@@ -243,28 +243,28 @@ export abstract class BaseApiClient extends BaseAjaxClient {
       dynamicSearchFilter?.trim(),
     ]
       .filter(Boolean)
-      .join(" and ");
+      .join(' and ');
 
     if (finalFilter) {
       params.push(`$filter=${encodeURIComponent(finalFilter)}`);
     }
 
-    const paramString = params.join("&");
+    const paramString = params.join('&');
 
-    return currentUrlToHit.includes("?")
+    return currentUrlToHit.includes('?')
       ? `${currentUrlToHit}&${paramString}`
       : `${currentUrlToHit}?${paramString}`;
   }
   buildFilterExpression(searchColumns: string, searchText: string): string {
-    if (!searchColumns || !searchText) return "";
+    if (!searchColumns || !searchText) return '';
 
-    const columns = searchColumns.split(",").map((c) => c.trim());
-    const numericColumns = ["id", "age", "score"]; // Add other numeric fields as needed
+    const columns = searchColumns.split(',').map((c) => c.trim());
+    const numericColumns = ['id', 'age', 'score']; // Add other numeric fields as needed
 
     const filters = columns
       .map((col) => {
         const isNumeric = numericColumns.includes(col.toLowerCase());
-        let filterExpression = "";
+        let filterExpression = '';
 
         if (isNumeric) {
           // If the column is numeric, convert searchText to number and use eq
@@ -272,7 +272,7 @@ export abstract class BaseApiClient extends BaseAjaxClient {
           if (!isNaN(searchNumber)) {
             filterExpression = `${col} eq ${searchNumber}`;
           } else {
-            filterExpression = ""; // Ignore invalid numeric filter
+            filterExpression = ''; // Ignore invalid numeric filter
           }
         } else {
           // If the column is not numeric, use contains
@@ -283,7 +283,7 @@ export abstract class BaseApiClient extends BaseAjaxClient {
       })
       .filter(Boolean); // Filter out empty expressions if any
 
-    return filters.join(" or ");
+    return filters.join(' or ');
   }
 
   private async AddCommonHeaders(

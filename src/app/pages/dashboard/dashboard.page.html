@@ -6,9 +6,14 @@
     <ion-title>Welcome {{viewModel.user}}</ion-title>
 
     <ion-buttons slot="end">
+      <ion-button (click)="generateKey()">
+        <ion-icon name="key"></ion-icon>
+      </ion-button>
+
       <ion-button (click)="logout()">
         <ion-icon name="log-out-outline"></ion-icon>Logout
       </ion-button>
+
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
