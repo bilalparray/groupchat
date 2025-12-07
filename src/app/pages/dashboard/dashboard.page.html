@@ -3,25 +3,80 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Welcome {{viewModel.user}}</ion-title>
+    <ion-title>Welcome {{ viewModel.user }}</ion-title>
 
     <ion-buttons slot="end">
       <ion-button (click)="generateKey()">
-        <ion-icon name="key"></ion-icon>
+        <ion-icon slot="icon-only" name="key"></ion-icon>
       </ion-button>
 
       <ion-button (click)="logout()">
-        <ion-icon name="log-out-outline"></ion-icon>Logout
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        Logout
       </ion-button>
-
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Welcome</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Keys</ion-card-title>
+      @if (viewModel.keys.length===0) {
+      <ion-card-subtitle>No keys available</ion-card-subtitle>}
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="table-wrapper">
+        <table class="keys-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Keys</th>
+              <th>Status</th>
+              <th>Total Guests</th>
+              <th>Active</th>
+              <th>Inactive</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (k of viewModel.keys; track $index) {
+            <tr>
+              <td>{{ k.name }}</td>
+              <td class="mono">{{ k.key }}</td>
+              <td>
+                <ion-badge
+                  [color]="k.status === 'active' ? 'success' : (k.status === 'inactive' ? 'medium' : 'warning')">
+                  {{ k.status | titlecase }}
+                </ion-badge>
+              </td>
+              <td>{{ k.totalGuests ?? 0 }}</td>
+              <td>{{ k.activeCount ?? 0 }}</td>
+              <td>{{ k.inactiveCount ?? 0 }}</td>
+              <td>
+                <ion-button size="small" fill="outline" (click)="editKey(k)">
+                  <ion-icon slot="start" name="create-outline"></ion-icon>
+                  Edit
+                </ion-button>
+              </td>
+              <td>
+                <ion-button size="small" color="danger" (click)="deleteKey()">
+                  <ion-icon slot="start" name="trash-outline"></ion-icon>
+                  Delete
+                </ion-button>
+              </td>
+            </tr>}
+          </tbody>
+        </table>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

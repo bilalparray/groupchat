@@ -19,6 +19,8 @@ import { ResetPasswordRequestSM } from '../models/service/app/v1/app-users/reset
 import { VerifyEmailRequestSM } from '../models/service/app/v1/app-users/verify-email-request-s-m';
 import { SampleErrorLogModel } from '../models/internal/sample-error-model';
 import { CommonService } from './common.service';
+import { GuestLoginRequest } from '../models/service/app/v1/general/guest-login-request-sm';
+import { GuestLoginResponse } from '../models/service/app/v1/general/guest-login-response-sm';
 
 @Injectable({
   providedIn: 'root',
@@ -204,6 +206,39 @@ export class AccountService extends BaseService {
           apiErrorType: resp.errorData?.apiErrorType,
           additionalProps: resp.errorData?.additionalProps,
           name: 'Error in ForgotPassword',
+        });
+      }
+      return resp;
+    }
+  }
+
+  async generateGuestToken(
+    tokenReq: GuestLoginRequest
+  ): Promise<ApiResponse<GuestLoginResponse>> {
+    if (!tokenReq || !tokenReq.guestKey) {
+      throw new Error(AppConstants.ERROR_PROMPTS.Invalid_Input_Data);
+    } else {
+      let apiRequest = new ApiRequest<GuestLoginRequest>();
+      apiRequest.reqData = tokenReq;
+
+      let resp = await this.accountClient.GuestLoginWithkey(apiRequest);
+      debugger;
+      if (!resp.isError && resp.successData != null) {
+        this.storageService.saveToStorage(
+          AppConstants.DATABASE_KEYS.GUEST_ACCESS_TOKEN,
+          resp.successData.accessToken
+        );
+        this.storageService.saveToStorage(
+          AppConstants.DATABASE_KEYS.GUEST_USER,
+          tokenReq
+        );
+      } else {
+        throw new SampleErrorLogModel({
+          message: 'Error from api While Login',
+          displayMessage: resp.errorData?.displayMessage,
+          apiErrorType: resp.errorData?.apiErrorType,
+          additionalProps: resp.errorData?.additionalProps,
+          name: 'Error in login',
         });
       }
       return resp;

@@ -23,13 +23,11 @@ export class DashboardClient extends BaseApiClient {
   }
 
   GenerateGuestKey = async (): Promise<ApiResponse<any>> => {
-    debugger;
     let resp = await this.GetResponseAsync<null, any>(
       `${AppConstants.API_ENDPOINTS.GENERATE_KEY}`,
       'POST',
       null
     );
-    debugger;
     return resp;
   };
 }

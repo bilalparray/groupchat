@@ -8,20 +8,20 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <form #guestForm="ngForm" (ngSubmit)="submit(guestForm)" novalidate>
+  <form #guestForm="ngForm" (ngSubmit)="guestSubmit(guestForm)" novalidate>
     <ion-list>
 
       <!-- Name -->
       <ion-item>
-        <ion-label position="stacked">Name</ion-label>
-        <ion-input type="text" name="name" required [(ngModel)]="model.name" (blur)="onBlur('name')"
-          [attr.autocomplete]="'name'">
+        <ion-label position="stacked">Guest Name</ion-label>
+        <ion-input type="text" name="guestName" required [(ngModel)]="viewModel.guestLoginRequest.guestName"
+          (blur)="onBlur('guestName')" [attr.autocomplete]="'guestName'">
         </ion-input>
       </ion-item>
 
-      @if (showError('name')) {
+      @if (showError('guestName')) {
       <div class="validation">
-        @if (!model.name || model.name.trim() === '') {
+        @if (!viewModel.guestLoginRequest.guestName || viewModel.guestLoginRequest.guestName.trim() === '') {
         <small>Name is required.</small>
         }
       </div>
@@ -30,14 +30,14 @@
       <!-- Invite Key -->
       <ion-item>
         <ion-label position="stacked">Invite Key</ion-label>
-        <ion-input type="text" name="inviteKey" required [(ngModel)]="model.inviteKey" (blur)="onBlur('inviteKey')"
-          [attr.autocomplete]="'off'">
+        <ion-input type="text" name="inviteKey" required [(ngModel)]="viewModel.guestLoginRequest.guestKey"
+          (blur)="onBlur('guestKey')" [attr.autocomplete]="'off'">
         </ion-input>
       </ion-item>
 
-      @if (showError('inviteKey')) {
+      @if (showError('guestKey')) {
       <div class="validation">
-        @if (!model.inviteKey || model.inviteKey.trim() === '') {
+        @if (!viewModel.guestLoginRequest.guestKey || viewModel.guestLoginRequest.guestKey.trim() === '') {
         <small>Invite key is required.</small>
         }
       </div>

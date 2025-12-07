@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -10,6 +10,12 @@ import {
   IonMenuButton,
   IonButton,
   IonIcon,
+  IonCard,
+  IonBadge,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonCardContent,
 } from '@ionic/angular/standalone';
 import { BaseComponent } from 'src/app/components/base.component';
 import { CommonService } from 'src/app/services/common.service';
@@ -23,10 +29,11 @@ import {
   key,
   searchOutline,
   keyOutline,
+  createOutline,
+  trashOutline,
 } from 'ionicons/icons';
 import { AccountService } from 'src/app/services/account.service';
 import { AppConstants } from 'src/app/app-constants';
-import { ClientUserSM } from 'src/app/models/service/app/v1/app-users/client-user-s-m';
 import { DashboardService } from 'src/app/services/dashboard.service';
 
 @Component({
@@ -35,6 +42,11 @@ import { DashboardService } from 'src/app/services/dashboard.service';
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
   imports: [
+    IonCardContent,
+    IonCardSubtitle,
+    IonCardTitle,
+    IonCardHeader,
+    IonBadge,
     IonButton,
     IonButtons,
     IonMenuButton,
@@ -46,6 +58,7 @@ import { DashboardService } from 'src/app/services/dashboard.service';
     FormsModule,
     IonButton,
     IonIcon,
+    IonCard,
   ],
 })
 export class DashboardPage
@@ -61,7 +74,15 @@ export class DashboardPage
   ) {
     super(commonService, loghandler);
     this.viewModel = new DashboardViewModel();
-    addIcons({ key, searchOutline, logOutOutline, lockClosed, keyOutline });
+    addIcons({
+      key,
+      logOutOutline,
+      createOutline,
+      trashOutline,
+      searchOutline,
+      lockClosed,
+      keyOutline,
+    });
   }
 
   async ngOnInit() {
@@ -107,5 +128,12 @@ export class DashboardPage
     } finally {
       await loader?.dismiss();
     }
+  }
+
+  deleteKey() {
+    throw new Error('Method not implemented.');
+  }
+  editKey(_t56: any) {
+    throw new Error('Method not implemented.');
   }
 }

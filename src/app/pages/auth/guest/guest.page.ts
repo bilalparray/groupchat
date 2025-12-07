@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,6 +16,15 @@ import {
   IonInput,
   IonButton,
 } from '@ionic/angular/standalone';
+import { GuestViewModel } from 'src/app/models/view/end-user/guest.viewmodel';
+import { key, navigate } from 'ionicons/icons';
+import { BaseComponent } from 'src/app/components/base.component';
+import { AccountService } from 'src/app/services/account.service';
+import { CommonService } from 'src/app/services/common.service';
+import { LogHandlerService } from 'src/app/services/log-handler.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { AppConstants } from 'src/app/app-constants';
+import { RoleTypeSM } from 'src/app/models/service/app/enums/role-type-s-m.enum';
 
 @Component({
   selector: 'app-guest',
@@ -38,59 +47,95 @@ import {
     IonButton,
   ],
 })
-export class GuestPage {
-  model = {
-    name: '',
-    inviteKey: '',
-  };
+export class GuestPage extends BaseComponent<GuestViewModel> {
+  constructor(
+    commonService: CommonService,
+    loghandler: LogHandlerService,
+    private storageService: StorageService,
+    private router: Router,
+    private accountService: AccountService
+  ) {
+    super(commonService, loghandler);
+    this.viewModel = new GuestViewModel();
+  }
 
   touched: { [key: string]: boolean } = {
-    name: false,
-    inviteKey: false,
+    guestName: false,
+    guestKey: false,
   };
 
-  constructor(private router: Router) {}
-
-  onBlur(field: 'name' | 'inviteKey') {
+  onBlur(field: 'guestName' | 'guestKey') {
     this.touched[field] = true;
   }
 
-  showError(field: 'name' | 'inviteKey'): boolean {
+  showError(field: 'guestName' | 'guestKey'): boolean {
     if (!this.touched[field]) return false;
-    if (field === 'name') {
-      return !this.model.name || this.model.name.trim() === '';
+    if (field === 'guestName') {
+      return (
+        !this.viewModel.guestLoginRequest.guestName ||
+        this.viewModel.guestLoginRequest.guestName.trim() === ''
+      );
     }
-    if (field === 'inviteKey') {
-      return !this.model.inviteKey || this.model.inviteKey.trim() === '';
+    if (field === 'guestKey') {
+      return (
+        !this.viewModel.guestLoginRequest.guestKey ||
+        this.viewModel.guestLoginRequest.guestKey.trim() === ''
+      );
     }
     return false;
   }
 
   isFormValid(): boolean {
     return (
-      !!this.model.name &&
-      this.model.name.trim() !== '' &&
-      !!this.model.inviteKey &&
-      this.model.inviteKey.trim() !== ''
+      !!this.viewModel.guestLoginRequest.guestName &&
+      this.viewModel.guestLoginRequest.guestName.trim() !== '' &&
+      !!this.viewModel.guestLoginRequest.guestKey &&
+      this.viewModel.guestLoginRequest.guestKey.trim() !== ''
     );
   }
 
-  submit(form: any) {
-    // mark touched so errors show if invalid
-    // mark touched so errors show if invalid
-    this.touched['name'] = true;
-    this.touched['inviteKey'] = true;
+  async guestSubmit(form: any) {
+    // Mark fields as touched
+    this.touched['guestName'] = true;
+    this.touched['guestKey'] = true;
 
     if (!this.isFormValid()) return;
 
-    // Replace with actual guest-join logic (API call / local flow)
-    console.log('Guest join payload:', {
-      name: this.model.name,
-      inviteKey: this.model.inviteKey,
-    });
+    const loader = await this._commonService.presentIonicLoader(
+      'Authenticating...'
+    );
 
-    // Example navigation after successful guest join:
-    // this.router.navigate(['/home']);
+    try {
+      // Keep roles and model as you required
+      this.viewModel.guestLoginRequest.role =
+        this._commonService.singleEnumToString(RoleTypeSM, 4);
+
+      const resp = await this.accountService.generateGuestToken(
+        this.viewModel.guestLoginRequest
+      );
+
+      if (resp?.successData) {
+        this.navigate(AppConstants.WEB_ROUTES.ENDUSER.DASHBOARD);
+        return;
+      }
+
+      // Only show error toast when there is an error
+      if (resp?.isError) {
+        await this._commonService.presentIonicToast(
+          'bottom',
+          resp?.errorData?.displayMessage || 'Error occurred',
+          3000
+        );
+      }
+    } catch (error: any) {
+      await this._commonService.presentIonicToast(
+        'bottom',
+        error?.displayMessage || error?.message || 'Error occurred',
+        3000
+      );
+    } finally {
+      await loader?.dismiss();
+    }
   }
 
   navigate(path: string) {

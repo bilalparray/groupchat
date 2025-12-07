@@ -19,6 +19,8 @@ import { StorageService } from '../services/storage.service';
 import { ForgotPasswordSM } from '../models/service/app/v1/app-users/forgot-password-s-m';
 import { ResetPasswordRequestSM } from '../models/service/app/v1/app-users/reset-password-request-s-m';
 import { VerifyEmailRequestSM } from '../models/service/app/v1/app-users/verify-email-request-s-m';
+import { GuestLoginResponse } from '../models/service/app/v1/general/guest-login-response-sm';
+import { GuestLoginRequest } from '../models/service/app/v1/general/guest-login-request-sm';
 
 @Injectable({
   providedIn: 'root',
@@ -102,6 +104,24 @@ export class AccountsClient extends BaseApiClient {
       'POST',
       forgotPasswordRequest,
       new AdditionalRequestDetails<IntResponseRoot>(false, Authentication.false)
+    );
+    return resp;
+  };
+
+  GuestLoginWithkey = async (
+    guestLoginRequest: ApiRequest<GuestLoginRequest>
+  ): Promise<ApiResponse<GuestLoginResponse>> => {
+    let resp = await this.GetResponseAsync<
+      GuestLoginRequest,
+      GuestLoginResponse
+    >(
+      `${AppConstants.API_ENDPOINTS.GUEST_LOGIN}`,
+      'POST',
+      guestLoginRequest,
+      new AdditionalRequestDetails<GuestLoginResponse>(
+        false,
+        Authentication.false
+      )
     );
     return resp;
   };
