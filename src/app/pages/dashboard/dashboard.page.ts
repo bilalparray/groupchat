@@ -143,13 +143,12 @@ export class DashboardPage
 
   async presentAlertWithInput() {
     const alert = await this.alertController.create({
-      header: 'Enter Value',
-      message: 'Please provide your input below.',
+      header: 'Enter Department Name',
       inputs: [
         {
           name: 'userValue',
           type: 'text',
-          placeholder: 'Type something...',
+          placeholder: 'Type Department...',
         },
       ],
       buttons: [
@@ -160,8 +159,12 @@ export class DashboardPage
         {
           text: 'OK',
           handler: (data) => {
+            if (data.userValue == '') {
+              return false;
+            }
             this.viewModel.guestKeyRequest.department = data.userValue;
             this.generateKey();
+            return true;
           },
         },
       ],
