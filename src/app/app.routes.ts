@@ -31,4 +31,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { allowedRole: [RoleTypeSM.Admin] },
   },
+  {
+    path: 'keys',
+    loadComponent: () =>
+      import('./pages/keys/keys.page').then((m) => m.KeysPage),
+    canActivate: [AuthGuard],
+    data: { allowedRole: [RoleTypeSM.Admin] },
+  },
 ];

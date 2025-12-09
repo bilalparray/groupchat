@@ -17,6 +17,7 @@ import {
   IonCardSubtitle,
   IonCardContent,
   AlertController,
+  NavController,
 } from '@ionic/angular/standalone';
 import { BaseComponent } from 'src/app/components/base.component';
 import { CommonService } from 'src/app/services/common.service';
@@ -36,6 +37,7 @@ import {
 import { AccountService } from 'src/app/services/account.service';
 import { AppConstants } from 'src/app/app-constants';
 import { DashboardService } from 'src/app/services/dashboard.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,11 +45,11 @@ import { DashboardService } from 'src/app/services/dashboard.service';
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
   imports: [
+    RouterModule,
     IonCardContent,
     IonCardSubtitle,
     IonCardTitle,
     IonCardHeader,
-    IonBadge,
     IonButton,
     IonButtons,
     IonMenuButton,
@@ -72,7 +74,8 @@ export class DashboardPage
     private storageService: StorageService,
     private accountService: AccountService,
     private dashboardService: DashboardService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private navCtrl: NavController
   ) {
     super(commonService, loghandler);
     this.viewModel = new DashboardViewModel();
@@ -171,5 +174,9 @@ export class DashboardPage
     });
 
     await alert.present();
+  }
+
+  navigate(path: string) {
+    this.navCtrl.navigateForward(path);
   }
 }
