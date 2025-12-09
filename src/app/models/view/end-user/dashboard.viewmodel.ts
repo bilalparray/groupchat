@@ -1,8 +1,11 @@
 import { BaseViewModel } from '../../internal/base.viewmodel';
 import { ClientUserSM } from '../../service/app/v1/app-users/client-user-s-m';
+import { GenerateGuestKeyRequest } from '../../service/app/v1/generate-guest-key-request-sm';
 
 export class DashboardViewModel extends BaseViewModel {
   user: string = '';
+  guestKeyRequest: GenerateGuestKeyRequest = new GenerateGuestKeyRequest();
+
   keys: any[] = [
     {
       id: '1',

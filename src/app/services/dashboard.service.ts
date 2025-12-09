@@ -10,6 +10,8 @@ import { IntResponseRoot } from '../models/service/foundation/common-response/in
 import { DummyTeacherSM } from '../models/service/app/v1/dummy-teacher-s-m';
 import { SampleErrorLogModel } from '../models/internal/sample-error-model';
 import { DashboardClient } from '../clients/dashboard.client';
+import { GenerateGuestKeyRequest } from '../models/service/app/v1/generate-guest-key-request-sm';
+import { GuestKeyResponse } from '../models/service/app/v1/generate-guest-key-response-sm';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +21,12 @@ export class DashboardService extends BaseService {
     super();
   }
 
-  async GenerateGuestKey(): Promise<ApiResponse<any>> {
-    let resp = await this.dashboardClient.GenerateGuestKey();
+  async GenerateGuestKey(
+    department: GenerateGuestKeyRequest
+  ): Promise<ApiResponse<GuestKeyResponse>> {
+    let apiRequest = new ApiRequest<GenerateGuestKeyRequest>();
+    apiRequest.reqData = department;
+    let resp = await this.dashboardClient.GenerateGuestKey(apiRequest);
     if (resp.isError) {
       throw new SampleErrorLogModel({
         message: 'Error from api in GetDummyTeachersCount',

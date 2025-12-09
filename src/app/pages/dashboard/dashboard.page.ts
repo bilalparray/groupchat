@@ -16,6 +16,7 @@ import {
   IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
+  AlertController,
 } from '@ionic/angular/standalone';
 import { BaseComponent } from 'src/app/components/base.component';
 import { CommonService } from 'src/app/services/common.service';
@@ -70,7 +71,8 @@ export class DashboardPage
     loghandler: LogHandlerService,
     private storageService: StorageService,
     private accountService: AccountService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private alertController: AlertController
   ) {
     super(commonService, loghandler);
     this.viewModel = new DashboardViewModel();
@@ -106,7 +108,9 @@ export class DashboardPage
     );
 
     try {
-      const resp = await this.dashboardService.GenerateGuestKey();
+      const resp = await this.dashboardService.GenerateGuestKey(
+        this.viewModel.guestKeyRequest
+      );
 
       if (resp?.successData) {
         this._commonService.presentIonicToast(
@@ -135,5 +139,34 @@ export class DashboardPage
   }
   editKey(_t56: any) {
     throw new Error('Method not implemented.');
+  }
+
+  async presentAlertWithInput() {
+    const alert = await this.alertController.create({
+      header: 'Enter Value',
+      message: 'Please provide your input below.',
+      inputs: [
+        {
+          name: 'userValue',
+          type: 'text',
+          placeholder: 'Type something...',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'OK',
+          handler: (data) => {
+            this.viewModel.guestKeyRequest.department = data.userValue;
+            this.generateKey();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

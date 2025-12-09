@@ -9,6 +9,9 @@ import {
   AdditionalRequestDetails,
   Authentication,
 } from '../models/internal/additional-request-details';
+import { ApiRequest } from '../models/service/foundation/api-contracts/base/api-request';
+import { GenerateGuestKeyRequest } from '../models/service/app/v1/generate-guest-key-request-sm';
+import { GuestKeyResponse } from '../models/service/app/v1/generate-guest-key-response-sm';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +25,17 @@ export class DashboardClient extends BaseApiClient {
     super(storageService, storageCache, commonResponseCodeHandler);
   }
 
-  GenerateGuestKey = async (): Promise<ApiResponse<any>> => {
-    let resp = await this.GetResponseAsync<null, any>(
+  GenerateGuestKey = async (
+    department: ApiRequest<GenerateGuestKeyRequest>
+  ): Promise<ApiResponse<GuestKeyResponse>> => {
+    let resp = await this.GetResponseAsync<
+      GenerateGuestKeyRequest,
+      GuestKeyResponse
+    >(
       `${AppConstants.API_ENDPOINTS.GENERATE_KEY}`,
       'POST',
-      null
+
+      department
     );
     return resp;
   };
