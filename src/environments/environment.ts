@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   applicationName: 'GroupChat',
-  apiBaseUrl: 'http://localhost:8081/api/v1',
+  apiBaseUrl: 'https://groupchatbackend-41bl.onrender.com/api/v1',
   applicationVersion: '1.0.0',
   indexedDBName: 'GroupChatDB',
   indexedDBVersion: 1,

@@ -69,7 +69,7 @@ export class LoginPage extends BaseComponent<LoginViewModel> {
   }
 
   isValidEmail(email: string): boolean {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const re = /^[a-zA-Z0-9_]{3,20}$/;
     return re.test(email);
   }
 
@@ -87,13 +87,13 @@ export class LoginPage extends BaseComponent<LoginViewModel> {
   isFormValid(): boolean {
     return (
       !!this.viewModel.email &&
-      this.isValidEmail(this.viewModel.email) &&
+      // this.isValidEmail(this.viewModel.email) &&
       !!this.viewModel.password &&
       this.viewModel.password.length >= 6
     );
   }
 
-  async submit(form: any) {
+  async submit() {
     this.touched['email'] = true;
     this.touched['password'] = true;
     if (!this.isFormValid()) return;
