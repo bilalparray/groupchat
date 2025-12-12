@@ -15,6 +15,7 @@ import {
   IonLabel,
   IonInput,
   IonButton,
+  MenuController,
 } from '@ionic/angular/standalone';
 import { StorageService } from 'src/app/services/storage.service';
 import { AppConstants } from 'src/app/app-constants';
@@ -24,7 +25,6 @@ import { CommonService } from 'src/app/services/common.service';
 import { LogHandlerService } from 'src/app/services/log-handler.service';
 import { AccountService } from 'src/app/services/account.service';
 import { TokenRequestSM } from 'src/app/models/service/app/token/token-request-s-m';
-import { RoleTypeSM } from 'src/app/models/service/app/enums/role-type-s-m.enum';
 
 @Component({
   selector: 'app-login',
@@ -58,12 +58,15 @@ export class LoginPage extends BaseComponent<LoginViewModel> {
     loghandler: LogHandlerService,
     private storageService: StorageService,
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private menuController: MenuController
   ) {
     super(commonService, loghandler);
     this.viewModel = new LoginViewModel();
   }
-
+  ionViewWillEnter() {
+    this.menuController.enable(false);
+  }
   onBlur(field: 'email' | 'password') {
     this.touched[field] = true;
   }

@@ -15,9 +15,9 @@ import {
   IonLabel,
   IonInput,
   IonButton,
+  MenuController,
 } from '@ionic/angular/standalone';
 import { GuestViewModel } from 'src/app/models/view/end-user/guest.viewmodel';
-import { key, navigate } from 'ionicons/icons';
 import { BaseComponent } from 'src/app/components/base.component';
 import { AccountService } from 'src/app/services/account.service';
 import { CommonService } from 'src/app/services/common.service';
@@ -53,12 +53,15 @@ export class GuestPage extends BaseComponent<GuestViewModel> {
     loghandler: LogHandlerService,
     private storageService: StorageService,
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private menuController: MenuController
   ) {
     super(commonService, loghandler);
     this.viewModel = new GuestViewModel();
   }
-
+  ionViewWillEnter() {
+    this.menuController.enable(false);
+  }
   touched: { [key: string]: boolean } = {
     guestName: false,
     guestKey: false,

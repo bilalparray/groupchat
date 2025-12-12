@@ -15,6 +15,7 @@ import {
   IonLabel,
   IonInput,
   IonButton,
+  MenuController,
 } from '@ionic/angular/standalone';
 import { RegisterViewModel } from 'src/app/models/view/end-user/register.viewmodel';
 import { BaseComponent } from 'src/app/components/base.component';
@@ -59,12 +60,15 @@ export class RegisterPage extends BaseComponent<RegisterViewModel> {
     loghandler: LogHandlerService,
     private storageService: StorageService,
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private menuController: MenuController
   ) {
     super(commonService, loghandler);
     this.viewModel = new RegisterViewModel();
   }
-
+  ionViewWillEnter() {
+    this.menuController.enable(false);
+  }
   onBlur(field: 'email' | 'password' | 'confirmPassword') {
     this.touched[field] = true;
   }
